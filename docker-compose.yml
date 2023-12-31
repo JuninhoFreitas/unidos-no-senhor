@@ -1,0 +1,30 @@
+version: '3'
+services:
+  api:
+    # ignore node_modules folder on build context    
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - NODE_ENV=production
+    # mount local folder to container
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 3000:3000
+    depends_on:
+      - mongodb
+  mongodb:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb-data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_DATABASE: unidos
+      MONGO_INITDB_ROOT_USERNAME: unidos
+      MONGO_INITDB_ROOT_PASSWORD: gloriacristo
+
+volumes:
+  mongodb-data:
