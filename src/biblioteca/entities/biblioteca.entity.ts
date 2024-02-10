@@ -19,7 +19,7 @@ export class Biblioteca {
   isbn: string;
 
   @Column({ type: 'integer' })
-  anoDeImpressao: number;
+  anoDeImpressao: string;
 
   @Column({ type: 'varchar', length: 500 })
   observacao: string;

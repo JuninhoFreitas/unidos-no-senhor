@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber, IsString, MinLength } from 'class-validator';
+import { IsNumberString, IsString, MinLength } from 'class-validator';
 
 export class CreateBibliotecaDto {
   @IsString()
@@ -19,9 +19,9 @@ export class CreateBibliotecaDto {
   @ApiProperty()
   isbn: string;
 
-  @IsNumber()
+  @IsNumberString()
   @ApiProperty()
-  anoDeImpressao: number;
+  anoDeImpressao: string;
 
   @IsString()
   @ApiProperty()

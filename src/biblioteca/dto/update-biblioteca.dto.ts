@@ -1,6 +1,6 @@
 import { ApiProperty, PartialType } from '@nestjs/swagger';
 import { CreateBibliotecaDto } from './create-biblioteca.dto';
-import { IsNumber, IsString, MinLength } from 'class-validator';
+import { IsNumberString, IsString, MinLength } from 'class-validator';
 
 export class UpdateBibliotecaDto extends PartialType(CreateBibliotecaDto) {
   @IsString()
@@ -20,9 +20,9 @@ export class UpdateBibliotecaDto extends PartialType(CreateBibliotecaDto) {
   @ApiProperty()
   isbn: string;
 
-  @IsNumber()
+  @IsNumberString()
   @ApiProperty()
-  anoDeImpressao: number;
+  anoDeImpressao: string;
 
   @IsString()
   @ApiProperty()
