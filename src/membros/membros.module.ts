@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { MembrosService } from './membros.service';
 import { MembrosController } from './membros.controller';
-import { MongooseModule } from '@nestjs/mongoose';
-import { Membro, MembroSchema } from './membros.schema';
+import { Membro } from './entities/membro.entity';
 import { ApiTags } from '@nestjs/swagger';
+import { TypeOrmModule } from '@nestjs/typeorm';
 @ApiTags('membros')
 @Module({
-  imports: [MongooseModule.forFeature([{ name: Membro.name, schema: MembroSchema }])],
+  imports: [TypeOrmModule.forFeature([Membro])],
   controllers: [MembrosController],
   providers: [MembrosService],
 })

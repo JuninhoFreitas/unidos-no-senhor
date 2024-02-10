@@ -1,12 +1,13 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateMembroDto } from './create-membro.dto';
-import { IsDateString, IsEmail, IsMobilePhone, IsOptional, IsString, Matches } from 'class-validator';
-import { ApiPropertyOptional } from '@nestjs/swagger';
+import { IsDateString, IsEmail, IsMobilePhone, IsOptional, IsString, Matches, MinLength } from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class UpdateMembroDto extends PartialType(CreateMembroDto) {
   @IsOptional()
   @IsString()
-  @ApiPropertyOptional()
+  @ApiProperty()
+  @MinLength(3, { message: 'Nome deve ter no mínimo 3 caracteres' })
   nome: string;
 
   @IsOptional()

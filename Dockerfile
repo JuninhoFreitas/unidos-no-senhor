@@ -17,15 +17,12 @@ COPY . .
 # Expose the API port
 EXPOSE 3000
 
-# Set the environment variables for the MongoDB connection
-ENV MONGO_HOST=mongodb
-ENV MONGO_PORT=27017
-ENV MONGO_DB=unidosnosenhor
-ENV MONGO_USER=unidos
-ENV MONGO_PASSWORD=gloriacristo
-
-# Start the MongoDB service
-CMD mongod --bind_ip_all --dbpath=/data/db &
+# Set the environment variables for the PostgresDB connection
+ENV POSTGRES_HOST=localhost
+ENV POSTGRES_PORT=5432
+ENV POSTGRES_DB=unidos_db
+ENV POSTGRES_USER=unidos
+ENV POSTGRES_PASSWORD=gloriacristo
 
 # Start the API server
 CMD ["npm", "start"]

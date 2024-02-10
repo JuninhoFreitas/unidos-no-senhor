@@ -1,18 +1,17 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsDateString, IsEmail, IsMobilePhone, IsNotEmpty, IsOptional, IsString, Matches } from 'class-validator';
+import { IsDateString, IsEmail, IsMobilePhone, IsNotEmpty, IsOptional, IsString, Matches, MinLength } from 'class-validator';
 
 export class CreateMembroDto {
-  @IsNotEmpty()
   @IsString()
   @ApiProperty()
+  @MinLength(3, { message: 'Nome deve ter no mínimo 3 caracteres' })
+  @IsNotEmpty({ message: 'Nome é obrigatório' })
   nome: string;
 
-  @IsNotEmpty()
   @IsEmail()
   @ApiProperty()
   email: string;
 
-  @IsNotEmpty()
   @IsString()
   @IsMobilePhone('pt-BR')
   @ApiProperty()
