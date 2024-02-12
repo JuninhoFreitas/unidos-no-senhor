@@ -1,10 +1,10 @@
-# Load environment variables from .env file
 version: '3'
 services:
   nestapi:
+    container_name: nestapi
     build: .
     ports:
-      - 3000:3000
+      - ${API_PORT}:${API_PORT}
     env_file:
       - .env
     depends_on:
@@ -12,6 +12,7 @@ services:
     networks:
       - mynetwork
   postgresdb:
+    container_name: postgresdb
     image: postgres:latest
     environment:
       POSTGRES_USER: ${DB_USER}
@@ -23,6 +24,18 @@ services:
       - postgres-data:/var/lib/postgresql/data
     networks:
       - mynetwork
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    ports:
+      - 5050:80
+    networks:
+      - mynetwork
+    depends_on:
+      - postgresdb
 volumes:
   postgres-data:
 networks:
