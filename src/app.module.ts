@@ -6,9 +6,11 @@ import { BibliotecaModule } from './biblioteca/biblioteca.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Biblioteca } from './biblioteca/entities/biblioteca.entity';
 import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
+    AuthModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),
@@ -27,6 +29,7 @@ import { ConfigModule } from '@nestjs/config';
       autoLoadEntities: true,
     }),
     BibliotecaModule,
+    // UsuarioModule,
   ],
   controllers: [AppController],
   providers: [AppService],
