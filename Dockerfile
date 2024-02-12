@@ -57,5 +57,8 @@ FROM node:18-alpine As production
 COPY --chown=node:node --from=build /usr/src/app/node_modules ./node_modules
 COPY --chown=node:node --from=build /usr/src/app/dist ./dist
 
+ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh /wait-for-it.sh
+RUN chmod +x /wait-for-it.sh
+
 # Start the server using the production build
-CMD [ "node", "dist/main.js" ]
+CMD /wait-for-it.sh postgresdb:5432 -- node dist/main
