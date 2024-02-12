@@ -16,6 +16,7 @@ export class BibliotecaService {
     livro.isbn = createLivroDto.isbn;
     livro.anoDeImpressao = createLivroDto.anoDeImpressao;
     livro.observacao = createLivroDto.observacao;
+    livro.reservado = createLivroDto.reservado;
     return this.bibliotecaRepository.save(livro);
   }
 
