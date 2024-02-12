@@ -16,13 +16,14 @@ RUN npm run build
 
 ENV NODE_ENV production
 
+RUN apk update && apk add bash
+
 USER node
 
 ###################
 # PRODUCTION
 ###################
-RUN apk update && apk add bash
 ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh /wait-for-it.sh
-RUN chmod +x /wait-for-it.sh
+RUN chmod +x ./wait-for-it.sh
 
-CMD /wait-for-it.sh postgresdb:5432 -- node dist/main
+CMD ./wait-for-it.sh postgresdb:5432 -- node dist/main
