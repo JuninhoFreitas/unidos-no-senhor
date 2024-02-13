@@ -2,7 +2,7 @@
 # BUILD FOR PRODUCTION
 ###################
 
-FROM node:18-alpine
+FROM node:20-alpine3.18
 
 WORKDIR /usr/src/app
 
