@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsDateString, IsEmail, IsMobilePhone, IsNotEmpty, IsOptional, IsString, Matches, MinLength } from 'class-validator';
+import { IsEmail, IsMobilePhone, IsNotEmpty, IsOptional, IsString, Matches, MinLength } from 'class-validator';
 
 export class CreateMembroDto {
   @IsString()
@@ -9,7 +9,8 @@ export class CreateMembroDto {
   nome: string;
 
   @IsEmail()
-  @ApiProperty()
+  @ApiPropertyOptional()
+  @IsOptional()
   email: string;
 
   @IsString()
@@ -17,13 +18,38 @@ export class CreateMembroDto {
   @ApiProperty()
   telefone: string;
 
-  @IsOptional()
-  @IsDateString()
+  @IsString()
   @ApiPropertyOptional()
-  dataNascimento: Date;
+  @IsOptional()
+  endereco: string;
+
+  @IsString()
+  @ApiPropertyOptional()
+  @IsOptional()
+  bairro: string;
+
+  @IsString()
+  @ApiPropertyOptional()
+  @IsOptional()
+  cidade: string;
+
+  @IsString()
+  @ApiPropertyOptional()
+  @IsOptional()
+  cep: string;
+
+  @IsString()
+  @ApiPropertyOptional()
+  @IsOptional()
+  conjuge: string;
+
+  @IsString()
+  @IsOptional()
+  @ApiPropertyOptional()
+  dataNascimento: string;
 
   @IsOptional()
-  @Matches(/^[0-9]{3}\.[0-9]{3}\.[0-9]{3}\-[0-9]{2}$/, { message: 'CPF inválido' })
+  @Matches(/^[0-9]{3}[0-9]{3}[0-9]{3}[0-9]{2}$/, { message: 'CPF inválido' })
   @ApiPropertyOptional()
   cpf: string;
 

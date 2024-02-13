@@ -24,7 +24,20 @@ export class Membro {
   @Column({ type: 'varchar', length: 190, nullable: true })
   cargo: string;
 
-  //Format is DD/MM/YYYY
+  @Column({ type: 'varchar', length: 190, nullable: true })
+  endereco: string;
+
+  @Column({ type: 'varchar', length: 190, nullable: true })
+  bairro: string;
+
+  @Column({ type: 'varchar', length: 190, nullable: true })
+  cidade: string;
+
+  @Column({ type: 'varchar', length: 190, nullable: true })
+  cep: string;
+
+  @Column({ type: 'varchar', length: 190, nullable: true })
+  conjuge: string;
 
   @Column({ type: 'date', nullable: true })
   dataEntrada: string;

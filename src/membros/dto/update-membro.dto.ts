@@ -24,7 +24,7 @@ export class UpdateMembroDto extends PartialType(CreateMembroDto) {
   @IsOptional()
   @IsDateString()
   @ApiPropertyOptional()
-  dataNascimento: Date;
+  dataNascimento: string;
 
   @IsOptional()
   @Matches(/^[0-9]{3}\.[0-9]{3}\.[0-9]{3}\-[0-9]{2}$/, { message: 'CPF inválido' })
