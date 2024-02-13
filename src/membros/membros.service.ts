@@ -22,6 +22,11 @@ export class MembrosService {
     membro.dataSaida = DateFormat.apply(createMembroDto.dataSaida);
     membro.situacao = createMembroDto.situacao;
     membro.observacao = createMembroDto.observacao;
+    membro.conjuge = createMembroDto.conjuge;
+    membro.endereco = createMembroDto.endereco;
+    membro.bairro = createMembroDto.bairro;
+    membro.cidade = createMembroDto.cidade;
+    membro.cep = createMembroDto.cep;
     return this.membroRepository.save(membro);
   }
 
@@ -46,6 +51,12 @@ export class MembrosService {
     membro.dataSaida = DateFormat.apply(updateMembroDto.dataSaida);
     membro.situacao = updateMembroDto.situacao;
     membro.observacao = updateMembroDto.observacao;
+    membro.conjuge = updateMembroDto.conjuge;
+    membro.endereco = updateMembroDto.endereco;
+    membro.bairro = updateMembroDto.bairro;
+    membro.cidade = updateMembroDto.cidade;
+    membro.cep = updateMembroDto.cep;
+
     return this.membroRepository.save(membro);
   }
 
