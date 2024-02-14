@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable, forwardRef } from '@nestjs/common';
 import { UsuarioService } from '../usuario/usuario.service';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
@@ -11,7 +11,7 @@ export class AuthService {
   constructor(
     private usuarioService: UsuarioService,
     private jwtService: JwtService,
-    private tokenService: TokenService,
+    @Inject(forwardRef(() => TokenService)) private tokenService: TokenService,
   ) {}
 
   async validarUsuario(email: string, senha: string): Promise<any> {
@@ -24,7 +24,8 @@ export class AuthService {
   }
 
   async login(user: any) {
-    const payload = { username: user.email, sub: user.id };
+    console.log('Login', user);
+    const payload = { username: user.email, sub: user.id, roles: user.roles };
     const token = this.jwtService.sign(payload);
     this.tokenService.save(token, user.email);
     return {
@@ -42,6 +43,23 @@ export class AuthService {
           errorMessage: 'Token inválido',
         },
         HttpStatus.UNAUTHORIZED,
+      );
+    }
+  }
+
+  async delete(user: any) {
+    if (user) {
+      this.tokenService.deleteByEmail(user.email);
+      return {
+        status: true,
+        mensagem: 'Usuário deletado com sucesso',
+      };
+    } else {
+      return new HttpException(
+        {
+          errorMessage: 'Usuário não encontrado',
+        },
+        HttpStatus.BAD_REQUEST,
       );
     }
   }

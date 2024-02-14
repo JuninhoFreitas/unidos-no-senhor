@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ResultadoDto } from '../dto/resultado.dto';
 import { Repository } from 'typeorm';
 import { UsuarioCadastrarDto } from './dto/usuario.cadastrar.dto';
@@ -14,13 +14,14 @@ export class UsuarioService {
     return this.usuarioRepository.find();
   }
 
-  async cadastrar(data: UsuarioCadastrarDto): Promise<ResultadoDto> {
+  async cadastrar(data: UsuarioCadastrarDto): Promise<any> {
     const usuario = new Usuario();
     usuario.email = data.email;
     usuario.nome = data.nome;
     usuario.password = bcrypt.hashSync(data.senha, 8);
     usuario.telefone = data.telefone;
     usuario.cpf = data.cpf;
+    usuario.roles = data.roles;
     return this.usuarioRepository
       .save(usuario)
       .then((result) => {
@@ -32,14 +33,61 @@ export class UsuarioService {
       })
       .catch((error) => {
         console.error('Erro ao cadastrar o usuário', error);
-        return <ResultadoDto>{
-          status: false,
-          mensagem: 'Houve um errro ao cadastrar o usuário',
-        };
+        return new HttpException(
+          {
+            errorMessage: 'Erro ao cadastrar usuário',
+          },
+          HttpStatus.BAD_REQUEST,
+        );
       });
   }
 
+  async findOneById(id: number): Promise<Usuario | undefined> {
+    return this.usuarioRepository.findOneBy({ id });
+  }
+
   async findOne(email: string): Promise<Usuario | undefined> {
-    return this.usuarioRepository.findOneBy({ email: email });
+    return await this.usuarioRepository.findOneBy({ email });
+  }
+
+  async delete(id: number) {
+    return this.usuarioRepository.delete({ id });
+  }
+
+  async update(id: number, data: UsuarioCadastrarDto): Promise<any> {
+    const usuario = await this.findOneById(id);
+    if (usuario) {
+      usuario.email = data.email;
+      usuario.nome = data.nome;
+      usuario.password = bcrypt.hashSync(data.senha, 8);
+      usuario.telefone = data.telefone;
+      usuario.cpf = data.cpf;
+      usuario.roles = data.roles;
+      return this.usuarioRepository
+        .save(usuario)
+        .then((result) => {
+          console.log('Usuário atualizado com sucesso', result);
+          return <ResultadoDto>{
+            status: true,
+            mensagem: 'Usuário atualizado com sucesso',
+          };
+        })
+        .catch((error) => {
+          console.error('Erro ao atualizar o usuário', error);
+          return new HttpException(
+            {
+              errorMessage: 'Erro ao atualizar usuário',
+            },
+            HttpStatus.BAD_REQUEST,
+          );
+        });
+    } else {
+      return new HttpException(
+        {
+          errorMessage: 'Usuário não encontrado',
+        },
+        HttpStatus.NOT_FOUND,
+      );
+    }
   }
 }

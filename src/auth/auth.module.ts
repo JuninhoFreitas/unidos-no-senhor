@@ -12,7 +12,7 @@ import { LocalStrategy } from './local.strategy';
   imports: [
     forwardRef(() => UsuarioModule),
     PassportModule,
-    TokenModule,
+    forwardRef(() => TokenModule),
     JwtModule.register({
       secret: jwtConstants.secret,
       signOptions: { expiresIn: '1d' },

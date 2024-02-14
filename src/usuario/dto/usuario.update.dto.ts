@@ -1,23 +1,28 @@
+import { PartialType } from '@nestjs/mapped-types';
+import { UsuarioCadastrarDto } from './usuario.cadastrar.dto';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsArray, IsEmail, IsMobilePhone, IsNotEmpty, IsOptional, IsString, MinLength } from 'class-validator';
+import { IsArray, IsEmail, IsMobilePhone, IsOptional, IsString, MinLength } from 'class-validator';
 
-export class UsuarioCadastrarDto {
+export class UpdateUsuarioDto extends PartialType(UsuarioCadastrarDto) {
   @IsString()
   @ApiProperty()
+  @IsOptional()
   @MinLength(3, { message: 'Nome deve ter no mínimo 3 caracteres' })
-  @IsNotEmpty({ message: 'Nome é obrigatório' })
   nome: string;
 
   @IsEmail()
+  @IsOptional()
   @ApiProperty()
   email: string;
 
   @IsString()
   @ApiProperty()
+  @IsOptional()
   senha: string;
 
   @IsString()
   @ApiProperty()
+  @IsOptional()
   @IsMobilePhone('pt-BR')
   telefone: string;
 
@@ -26,6 +31,7 @@ export class UsuarioCadastrarDto {
   cpf: string;
 
   @ApiProperty()
+  @IsOptional()
   @IsArray()
   roles: string[];
 }

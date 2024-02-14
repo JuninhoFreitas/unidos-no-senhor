@@ -56,4 +56,11 @@ export class TokenService {
       return null;
     }
   }
+
+  async deleteByEmail(email: string) {
+    const objToken: Token = await this.tokenRepository.findOneBy({ username: email });
+    if (objToken) {
+      this.tokenRepository.delete(objToken.id);
+    }
+  }
 }
