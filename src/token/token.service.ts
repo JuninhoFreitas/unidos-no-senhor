@@ -63,4 +63,16 @@ export class TokenService {
       this.tokenRepository.delete(objToken.id);
     }
   }
+
+  async getRoles(authorization: string) {
+    const token = authorization.replace('Bearer ', '').trim();
+    const objToken: Token = await this.tokenRepository.findOneBy({ hash: token });
+    if (objToken) {
+      const usuario = await this.usuarioService.findOne(objToken.username);
+      return usuario.roles;
+    } else {
+      //é uma requisição inválida
+      return null;
+    }
+  }
 }

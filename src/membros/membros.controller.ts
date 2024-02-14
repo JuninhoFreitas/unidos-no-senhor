@@ -35,6 +35,8 @@ export class MembrosController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @UseGuards(RolesGuard)
+  @Roles(Role.Admin)
   @Get()
   findAll() {
     return this.membrosService.findAll();
@@ -42,6 +44,8 @@ export class MembrosController {
 
   // must be UUID
   @UseGuards(JwtAuthGuard)
+  @UseGuards(RolesGuard)
+  @Roles(Role.Admin)
   @Get(':id')
   async findOne(@Param('id', ParseUUIDPipe) id: string) {
     const membro = await this.membrosService.findOne(id);
@@ -52,6 +56,8 @@ export class MembrosController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @UseGuards(RolesGuard)
+  @Roles(Role.Admin)
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateMembroDto: UpdateMembroDto) {
     const membro = await this.membrosService.findOne(id);
@@ -62,6 +68,8 @@ export class MembrosController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @UseGuards(RolesGuard)
+  @Roles(Role.Admin)
   @Delete(':id')
   @HttpCode(204)
   async remove(@Param('id', ParseUUIDPipe) id: string) {
