@@ -10,6 +10,11 @@ export class UpdateMembroDto extends PartialType(CreateMembroDto) {
   @IsNotEmpty({ message: 'Nome é obrigatório' })
   nome: string;
 
+  @IsOptional()
+  @Matches(/^[0-9]{3}[0-9]{3}[0-9]{3}[0-9]{2}$/, { message: 'CPF inválido' })
+  @ApiPropertyOptional()
+  cpf: string;
+
   @IsEmail()
   @ApiPropertyOptional()
   @IsOptional()
@@ -49,11 +54,6 @@ export class UpdateMembroDto extends PartialType(CreateMembroDto) {
   @IsOptional()
   @ApiPropertyOptional()
   dataNascimento: string;
-
-  @IsOptional()
-  @Matches(/^[0-9]{3}[0-9]{3}[0-9]{3}[0-9]{2}$/, { message: 'CPF inválido' })
-  @ApiPropertyOptional()
-  cpf: string;
 
   @IsOptional()
   @IsString()

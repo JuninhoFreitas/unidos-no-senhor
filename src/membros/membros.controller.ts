@@ -3,7 +3,6 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
   HttpCode,
@@ -11,6 +10,7 @@ import {
   HttpException,
   HttpStatus,
   UseGuards,
+  Put,
 } from '@nestjs/common';
 import { MembrosService } from './membros.service';
 import { CreateMembroDto } from './dto/create-membro.dto';
@@ -58,7 +58,7 @@ export class MembrosController {
   @UseGuards(JwtAuthGuard)
   @UseGuards(RolesGuard)
   @Roles(Role.Admin)
-  @Patch(':id')
+  @Put(':id')
   async update(@Param('id') id: string, @Body() updateMembroDto: UpdateMembroDto) {
     const membro = await this.membrosService.findOne(id);
     if (!membro) {

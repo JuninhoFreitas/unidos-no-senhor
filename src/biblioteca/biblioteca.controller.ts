@@ -3,7 +3,6 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
   HttpStatus,
@@ -11,6 +10,7 @@ import {
   ParseUUIDPipe,
   HttpCode,
   UseGuards,
+  Put,
 } from '@nestjs/common';
 import { BibliotecaService } from './biblioteca.service';
 import { CreateBibliotecaDto } from './dto/create-biblioteca.dto';
@@ -51,7 +51,7 @@ export class BibliotecaController {
   @UseGuards(JwtAuthGuard)
   @UseGuards(RolesGuard)
   @Roles(Role.Admin)
-  @Patch(':id')
+  @Put(':id')
   async update(@Param('id') id: string, @Body() updateBibliotecaDto: UpdateBibliotecaDto) {
     const livro = await this.bibliotecaService.findOne(id);
     if (!livro) {

@@ -37,6 +37,7 @@ export class BibliotecaService {
     livro.isbn = updateBibliotecaDto.isbn;
     livro.anoDeImpressao = updateBibliotecaDto.anoDeImpressao;
     livro.observacao = updateBibliotecaDto.observacao;
+    livro.reservado = updateBibliotecaDto.reservado;
     return this.bibliotecaRepository.save(livro);
   }
 
