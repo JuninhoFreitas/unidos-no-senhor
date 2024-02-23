@@ -11,6 +11,8 @@ import {
   HttpStatus,
   UseGuards,
   Put,
+  UseInterceptors,
+  ClassSerializerInterceptor,
 } from '@nestjs/common';
 import { MembrosService } from './membros.service';
 import { CreateMembroDto } from './dto/create-membro.dto';
@@ -20,6 +22,7 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { Roles } from 'src/decorators/role.decorator';
 import { Role } from 'src/enums/role.enum';
 import { RolesGuard } from '../guards/roles.guard';
+import { Membro } from './entities/membro.entity';
 
 @Controller('membro')
 @ApiTags('membro')
@@ -37,9 +40,10 @@ export class MembrosController {
   @UseGuards(JwtAuthGuard)
   @UseGuards(RolesGuard)
   @Roles(Role.Admin)
+  @UseInterceptors(ClassSerializerInterceptor)
   @Get()
-  findAll() {
-    return this.membrosService.findAll();
+  async findAll(): Promise<Membro[]> {
+    return await this.membrosService.findAll();
   }
 
   // must be UUID

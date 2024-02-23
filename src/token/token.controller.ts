@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Headers, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Headers, HttpStatus, Put, Res, UseGuards } from '@nestjs/common';
 import { RefreshTokenDto } from './dto/refresh.token.dto';
 import { TokenService } from './token.service';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { Response } from 'express';
 
 @Controller('token')
 export class TokenController {
@@ -14,7 +15,12 @@ export class TokenController {
 
   @UseGuards(JwtAuthGuard)
   @Get('roles')
-  async getRoles(@Headers() headers: { authorization: string }): Promise<string[]> {
-    return this.tokenService.getRoles(headers.authorization);
+  async getRoles(@Headers() headers: { authorization: string }, @Res() res: Response): Promise<string[] | void> {
+    const roles = await this.tokenService.getRoles(headers.authorization);
+    if (roles != null) {
+      res.status(HttpStatus.OK).send(roles);
+    } else {
+      res.status(HttpStatus.NO_CONTENT).send();
+    }
   }
 }

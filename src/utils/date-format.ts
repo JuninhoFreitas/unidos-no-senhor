@@ -7,4 +7,9 @@ export class DateFormat {
     if (date == null) return null;
     return mom(date, 'DD/MM/YYYY').format('YYYY-MM-DD');
   }
+
+  public static revert(date:string | Date): string {
+    if (date == null) return null;
+    return mom(date, 'YYYY-MM-DD').format('DD/MM/YYYY');
+  }
 }

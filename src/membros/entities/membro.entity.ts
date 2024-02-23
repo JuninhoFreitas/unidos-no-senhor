@@ -1,3 +1,5 @@
+import { Transform } from 'class-transformer';
+import { DateFormat } from 'src/utils/date-format';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
@@ -15,9 +17,15 @@ export class Membro {
   @Column({ type: 'varchar', length: 190, nullable: true })
   telefone: string;
 
+  @Transform(({ value }) => {
+    return DateFormat.revert(value);
+  })
   @Column({ type: 'date', nullable: true })
   dataNascimento: string;
 
+  @Transform(({ value }) => {
+    return DateFormat.revert(value);
+  })
   @Column({ type: 'date', nullable: true })
   dataBatismo: string;
 
@@ -39,9 +47,15 @@ export class Membro {
   @Column({ type: 'varchar', length: 190, nullable: true })
   conjuge: string;
 
+  @Transform(({ value }) => {
+    return DateFormat.revert(value);
+  })
   @Column({ type: 'date', nullable: true })
   dataEntrada: string;
 
+  @Transform(({ value }) => {
+    return DateFormat.revert(value);
+  })
   @Column({ type: 'date', nullable: true })
   dataSaida: string;
 
