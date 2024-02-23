@@ -1,6 +1,6 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateMembroDto } from './create-membro.dto';
-import { IsEmail, IsMobilePhone, IsNotEmpty, IsOptional, IsString, Matches, MinLength } from 'class-validator';
+import { IsEmail, IsMobilePhone, IsNotEmpty, IsOptional, IsString, Matches, MinLength, isString } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class UpdateMembroDto extends PartialType(CreateMembroDto) {
@@ -15,9 +15,9 @@ export class UpdateMembroDto extends PartialType(CreateMembroDto) {
   @ApiPropertyOptional()
   cpf: string;
 
-  @IsEmail()
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({default: "", nullable: true})
   @IsOptional()
+  @IsEmail()
   email: string;
 
   @IsString()
