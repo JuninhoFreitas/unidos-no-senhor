@@ -19,5 +19,6 @@ import { JwtService } from '@nestjs/jwt';
       useClass: RolesGuard,
     },
   ],
+  exports: [MembrosService],
 })
 export class MembrosModule {}

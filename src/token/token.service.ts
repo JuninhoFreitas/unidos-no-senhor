@@ -64,12 +64,12 @@ export class TokenService {
     }
   }
 
-  async getRoles(authorization: string) {
+  async getUser(authorization: string) {
     const token = authorization.replace('Bearer ', '').trim();
     const objToken: Token = await this.tokenRepository.findOneBy({ hash: token });
     if (objToken) {
       const usuario = await this.usuarioService.findOne(objToken.username);
-      return usuario.roles;
+      return usuario;
     } else {
       //é uma requisição inválida
       return null;

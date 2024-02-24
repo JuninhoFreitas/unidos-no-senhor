@@ -16,7 +16,7 @@ export class TokenController {
   @UseGuards(JwtAuthGuard)
   @Get('roles')
   async getRoles(@Headers() headers: { authorization: string }, @Res() res: Response): Promise<string[] | void> {
-    const roles = await this.tokenService.getRoles(headers.authorization);
+    const { roles } = await this.tokenService.getUser(headers.authorization);
     if (roles != null) {
       res.status(HttpStatus.OK).send(roles);
     } else {
