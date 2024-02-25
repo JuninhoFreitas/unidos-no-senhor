@@ -31,6 +31,7 @@ export class EventosController {
   @Roles(Role.Admin, Role.Obreiro)
   @Post()
   create(@Body() createEventoDto: CreateEventoDto) {
+    console.log('Create', createEventoDto);
     return this.eventosService.create(createEventoDto);
   }
 
