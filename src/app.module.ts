@@ -9,6 +9,8 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { RolesGuard } from './guards/roles.guard';
 import { APP_GUARD } from '@nestjs/core';
+import { EventosModule } from './eventos/eventos.module';
+import { ListaDePresencaModule } from './lista-de-presenca/lista-de-presenca.module';
 
 @Module({
   imports: [
@@ -31,6 +33,8 @@ import { APP_GUARD } from '@nestjs/core';
       autoLoadEntities: true,
     }),
     BibliotecaModule,
+    EventosModule,
+    ListaDePresencaModule,
     // UsuarioModule,
   ],
   controllers: [AppController],
