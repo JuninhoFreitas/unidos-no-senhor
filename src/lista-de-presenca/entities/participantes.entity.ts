@@ -10,6 +10,8 @@ export class Participante {
   nome: string;
 
   //membro_id é uma chave estrangeira para a tabela de membros
+
+  @Column('uuid')
   @OneToOne(() => Membro, (membro) => membro.id, { nullable: true })
   membro_id: string;
 }

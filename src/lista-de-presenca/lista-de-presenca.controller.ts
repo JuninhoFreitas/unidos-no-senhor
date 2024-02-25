@@ -47,9 +47,10 @@ export class ListaDePresencaController {
     if (!evento) {
       throw new HttpException('Evento não encontrado', HttpStatus.NOT_FOUND);
     }
-    const participantes = await this.listaDePresencaService.findAllParcipantesInArray(createListaDePresencaDto.participante_id);
-    if (participantes.length === 0) {
-      throw new HttpException('Participantes não encontrado', HttpStatus.NOT_FOUND);
+    let participantes = [];
+    if (createListaDePresencaDto.participante_id.length !== 0) {
+      participantes = await this.listaDePresencaService.findAllParticipantesInArray(createListaDePresencaDto.participante_id);
+      // throw new HttpException('Participantes não encontrado', HttpStatus.NOT_FOUND);
     }
     const responsavel = await this.tokenService.getUser(headers.authorization);
     //Get the user from the token in the request

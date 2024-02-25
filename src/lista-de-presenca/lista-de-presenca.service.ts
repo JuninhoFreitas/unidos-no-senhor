@@ -16,8 +16,47 @@ export class ListaDePresencaService {
     @InjectRepository(Participante) private readonly participanteRepository: Repository<Participante>,
   ) {}
 
-  upsert(evento: Evento, participantes: Participante[], responsavel: Usuario) {
+  async upsert(evento: Evento, participantes: Participante[], responsavel: Usuario) {
     console.log('Participantes', participantes);
+    // Se todos os participantes foram removidos da lista de presença, deleta a lista de presença
+    if (participantes.length === 0) {
+      return await this.listaDePresencaRepository.delete({
+        evento_id: evento.id,
+      });
+    }
+
+    const participantesIds = participantes.map((participante) => participante.id);
+    const query = `SELECT * FROM lista_de_presenca WHERE evento_id = '${evento.id}' AND participante_id in (${participantesIds
+      .map((id) => `'${id}'`)
+      .join(',')});`;
+
+    const participantesJaInseridos = await this.listaDePresencaRepository.query(query);
+
+    if (participantesJaInseridos.length > 0) {
+      const participantesJaInseridosIds = participantesJaInseridos.map((participante) => participante.participante_id);
+      participantes = participantes.filter((participante) => !participantesJaInseridosIds.includes(participante.id));
+    }
+
+    // Procura por participantes removidos
+    const queryToFindRemovedParticipants = `SELECT * FROM lista_de_presenca WHERE evento_id = '${
+      evento.id
+    }' AND participante_id not in (${participantesIds.map((id) => `'${id}'`).join(',')});`;
+
+    const participantesRemovidos = await this.listaDePresencaRepository.query(queryToFindRemovedParticipants);
+
+    // Se houver participantes removidos, remove-os da lista de presença
+    if (participantesRemovidos.length > 0) {
+      const participantesRemovidosIds = participantesRemovidos.map((participante) => participante.participante_id);
+      participantesRemovidosIds.forEach((id) => {
+        this.listaDePresencaRepository.delete({ evento_id: evento.id, participante_id: id });
+      });
+    }
+
+    // Se não tem participantes para inserir, retorna os participantes que já estavam inseridos
+    if (participantes.length === 0) {
+      return participantesJaInseridos;
+    }
+
     let bulkInsert = 'INSERT INTO lista_de_presenca (evento_id, participante_id, responsavel_id) VALUES';
     participantes.forEach((participante) => {
       bulkInsert += `('${evento.id}', '${participante.id}', ${responsavel.id}),`;
@@ -72,7 +111,7 @@ export class ListaDePresencaService {
     });
   }
 
-  findAllParcipantesInArray(ids: string[]): Promise<Participante[]> {
+  findAllParticipantesInArray(ids: string[]): Promise<Participante[]> {
     const query = `SELECT * FROM participante WHERE id IN (${ids.map((id) => `'${id}'`).join(',')});`;
 
     return this.participanteRepository.query(query);
