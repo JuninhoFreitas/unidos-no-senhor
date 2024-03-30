@@ -23,6 +23,18 @@ $ yarn install
 
 O projeto depende de algumas varíaveis de ambiente, copie o arquivo `.env.development` e renome-o para `.env`, então configure de acordo com seu ambiente.
 
+```bash
+# Se for usar a API no docker, alterar o registro DB_HOST do .env para:
+DB_HOST=postgresdb
+```
+
+### Docker Compose
+
+```bash
+# Sobe os serviços
+docker compose up -d
+```
+
 ## Iniciando a aplicaçao
 
 ```bash
