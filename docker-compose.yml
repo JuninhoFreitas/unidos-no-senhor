@@ -4,7 +4,7 @@ services:
     container_name: nestapi
     build: .
     ports:
-      - ${PORT}:${PORT}
+      - ${EXTERNAL_PORT}:${INTERNAL_PORT}
     env_file:
       - .env
     depends_on:
@@ -12,14 +12,14 @@ services:
     networks:
       - mynetwork
   postgresdb:
-    container_name: postgresdb
+    container_name: pg
     image: postgres:latest
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_DATABASE}
     ports:
-      - ${DB_PORT}:5432
+      - ${EXTERNAL_DB_PORT}:${INTERNAL_DB_PORT}
     volumes:
       - postgres-data:/var/lib/postgresql/data
     networks:
@@ -31,7 +31,7 @@ services:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
     ports:
-      - ${PGADMIN_PORT}:80
+      - ${EXTERNAL_PGADMIN_PORT}:${INTERNAL_PGADMIN_PORT}
     networks:
       - mynetwork
     depends_on:
