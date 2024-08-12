@@ -8,6 +8,7 @@ DATE=$(date +"%Y-%m-%d")
 TIME=$(date +"%H-%M-%S")
 BACKUP_DIR="../backup"
 CONTAINER_NAME="postgresdb"
+HOST=""
 DATABASE_NAME=""
 DATABASE_USER=""
 DATABASE_PASSWORD=""
@@ -22,10 +23,10 @@ fi
 
 # Backup database to file and compress it in a pipe 
 # must authenticate with password
-docker exec -i ${CONTAINER_NAME} /bin/bash -c "PGPASSWORD=${DATABASE_PASSWORD} pg_dump --username ${DATABASE_USER} ${DATABASE_NAME}" > $FILE_NAME
+docker exec -i ${CONTAINER_NAME} sh -c "PGPASSWORD=${DATABASE_PASSWORD} pg_dump --host ${HOST} --port 34397 --username ${DATABASE_USER} ${DATABASE_NAME}" > $FILE_NAME
 
 # Send to a s3 bucket
-aws s3 cp $FILE_NAME $BUCKET
+# aws s3 cp $FILE_NAME $BUCKET
 
 # Restore database from file
 # docker exec -i ${CONTAINER_NAME}  /bin/bash -c "PGPASSWORD=${DATABASE_PASSWORD} psql --username ${DATABASE_USER} ${DATABASE_NAME}" < ./dump.sql

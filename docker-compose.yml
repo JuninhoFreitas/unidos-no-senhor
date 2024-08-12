@@ -19,7 +19,7 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_DATABASE}
     ports:
-      - 5432:5432
+      - ${DB_PORT}:5432
     volumes:
       - postgres-data:/var/lib/postgresql/data
     networks:
@@ -31,7 +31,7 @@ services:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
     ports:
-      - 5050:80
+      - ${PGADMIN_PORT}:80
     networks:
       - mynetwork
     depends_on:
